@@ -1,0 +1,82 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<div class="container">
+    <h1>Kezelési utasítás</h1>
+    <p>Ennek az alkalmazásnak a célja, hogy segítse az időmérőt abban, hogy nyilvántarsa, hogy az egyes motoros gépeknek a következő felszállásig mennyi idejük van még vissza. Az alkalmazás a felvitt adatokat eltárolja és autómatikusan frissíti.</p>
+    <h2>Táblázat</h2>
+    <p>A táblázatban megtaláljuk az adott gép lajstromát, az utolsó felszállásának időpontját valamint a következő felszállásig hátralévő idejét percben.</p>
+    <div class="alert alert-info" role="alert">
+        Az adatok frissítése miatt a honlap <b>percenként</b> autómatikusan újratölti magát.
+      </div>
+    <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">Lajstrom</th>
+          <th scope="col">Utolsó felszállás ideje</th>
+          <th scope="col">Következő felszállásig hátralévő idő</th>
+          <th scope="col">Műveletek</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td><input type="text" class="form-control" id="registration" name = "registration" placeholder="Lajstrom" disabled></td>
+            <td>-</td>
+            <td>-</td>
+            <td>
+                <button class="btn btn-primary disabled" type="#">Felszállás</button>
+            </td>
+          </tr>
+          <tr class="table-warning">
+            <td>HA-API</td>
+            <td>10:00</td>
+            <td>25 perc</td>
+            <td>
+                <div class="d-grid gap-2 d-md-block">
+                  <a class="btn btn-primary disabled" href="#" role="button">Felszállás</a>
+                  <a class="btn btn-warning disabled" href="#"  role="button">Törlés</a>
+            </td>
+          </tr>
+          <tr class="table-success">
+            <td>9A-DRA</td>
+            <td>09:10</td>
+            <td>0 perc</td>
+            <td>
+                <div class="d-grid gap-2 d-md-block">
+                  <a class="btn btn-primary disabled" href="#" role="button">Felszállás</a>
+                  <a class="btn btn-warning disabled" href="#"  role="button">Törlés</a>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+    <p>A táblázat első sorában tudunk első felszállás rögzíteni. A lajstrom megadását követően rendszer elmenti az aktuális időt és a továbbiakban ebből végez számításokat. A kék Felszállás gomb megnyomását követően a repülőgép sárga háttérrel megjelenik a táblázat legalján.</p>
+    <div class="alert alert-primary" role="alert">
+        A rendszer <b>45 perces</b> időközzel dolgozik!
+      </div>
+    <p>A táblázat sorainak háttér szinezése a gyorsabb leolvasást igyekszik segíteni:</p>
+    <ul>
+        <li><b>Sárga háttér:</b> Ilyenkor a repülőnek a következő felszállásig még valamennyi ideje hátra van. Amennyiben megpróbálunk egy ilyen háttérel rendelkező motorosgépet felszállítani a rendszer figyelmeztető üzeneteben kéri a megerősítést.</li>
+        <li><b>Zöld háttér:</b> Zöld hátteret abban az esetben kap az adott motorosgép ha már eltelt a minimum idő a gép legutóbbi felszállása óta. Tehát a következő felszállásig hátralévő idő 0 perc.</li>
+    </ul>
+    <p>A sorok végén található Törlés feliratú sárga gombbal lehetőségünk van az egyes gépeket egyedileg törölni a rendszerből.</p>
+    <h2>Üzem vége</h2>
+    <div class="alert alert-secondary" role="alert">
+        <div class="row align-items-start">
+          <div class="col">
+            Az üzem vége gomb használatával <b>az összes</b> felvitt repülőgép törlésre kerül és a tárolt adatok elvesznek. Biztos le szeretnéd zárni ezt az üzemnapot?
+          </div>
+          <div class="row justify-content-end">
+            <div class="col">
+                <a class="btn btn-danger disabled" href="#" role="button">Üzem vége</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>Az üzem vége gomb használatával lehetőségünk van egyszerre törölni az összes felvitt repülőgép adatát a rendszerből. A gomb működtetése esetén <b>az összes elveszik és nem lehet majd őket visszaállítani</b>, ezért használat esetén felugró ablakban meg kell erősíteni szándékunkat.</p>
+      <div class="alert alert-info" role="alert">
+        A rendszer a háttérben minden nap 22:00 -kor lefuttatja ezt a funkciót. Amennyiben nem történt ez nem történt meg és az előző napi repülések fogadnak minket vagy napközben szeretnénk üríteni a táblázatot, akkor cészerű ezt a funkciót használni.
+      </div>
+</div>
+
+{% endblock content %}
