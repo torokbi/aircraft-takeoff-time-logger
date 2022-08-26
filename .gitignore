@@ -4,3 +4,4 @@ _core/__pycache__/
 logger/__pycache__/
 logger/migrations/
 _venv/
+.vscode/
