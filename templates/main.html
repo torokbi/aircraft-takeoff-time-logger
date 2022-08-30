@@ -74,8 +74,8 @@
         <td>{{ plane.beforenext_takeoff }} perc</td>
         <td>
             <div class="d-grid gap-2 d-md-block">
-              <button class="btn btn-primary" type="button">Felszállás</button>
-              <button class="btn btn-warning" type="button">Törlés</button>
+              <a class="btn btn-primary" href={% url 'retakeoff' plane.id %}  role="button">Felszállás</a>
+              <a class="btn btn-warning" href={% url 'delete_one_plane' plane.id %}  role="button">Törlés</a>
             </div>
         </td>
       </tr>
