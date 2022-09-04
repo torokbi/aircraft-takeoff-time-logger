@@ -27,8 +27,10 @@ def main(request):
         try:
             before = time_now - time_takeoff
             if int(str(before)[2:4]) <= 45 :
-                before = 45 - int(str(before)[2:4])
-                craft.beforenext_takeoff = before
+                craft.beforenext_takeoff = 45 - int(str(before)[2:4])
+                craft.save()
+            elif int(str(before)[2:4]) >= 45 :
+                craft.beforenext_takeoff = 45 - int(str(before)[2:4])
                 craft.save()
         except:
             calulate_errror_counter +=1
