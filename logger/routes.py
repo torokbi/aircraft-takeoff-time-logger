@@ -1,3 +1,4 @@
+import flask.cli
 from flask import redirect, url_for, render_template, request, flash
 from datetime import datetime, time
 
@@ -31,7 +32,7 @@ def home():
     for index in planes_db:
         now = datetime.now().strftime('%H:%M:%S')
         if datetime.strptime(now, '%H:%M:%S') < datetime.strptime(str(index.takeofftime), "%H:%M:%S"):
-            flash("Van legalább egy olyan repülőgép a nyilvántartásban, amely nem a mai napon szált fel utoljára!", "info")
+            flash(f"{str(index.registracion).upper()} lajstromú repülőgép nem a mai napon szált fel utoljára!", "info")
             beforetime = "-0"
         else:
             beforetime = datetime.strptime(now, '%H:%M:%S') - datetime.strptime(str(index.takeofftime), "%H:%M:%S")
@@ -44,8 +45,6 @@ def home():
             'takeofftime': index.takeofftime,
             'beforetime': beforetime
         })
-    for index in planes:
-        print(f"{index['id']}.\t{index['registracion']}\t{index['takeofftime']}\t{index['beforetime']}")
     return render_template('logging.html', form=form, planes=planes)
 
 @app.route('/retakoff/<int:plane_id>')
@@ -61,7 +60,7 @@ def delplane(plane_id):
     current_plane = Planes.query.get_or_404(plane_id)
     db.session.delete(current_plane)
     db.session.commit()
-    flash(f"<b>{str(current_plane.registracion).upper()}</b> lajstromú repülőgépet sikeresen törölte.",  "success")
+    flash(f"{str(current_plane.registracion).upper()} lajstromú repülőgépet sikeresen törölte.",  "success")
     return redirect(url_for('home'))
 
 @app.route('/howto')
