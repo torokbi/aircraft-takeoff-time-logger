@@ -1,0 +1,70 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Lajstrom</th>
+        <th scope="col">Felszállás ideje</th>
+        <th scope="col">Hátralévő idő</th>
+        <th scope="col">Műveletek</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <th scope="col">{{ form.reg(class="form-control form-control-lg") }}</th>
+        <th scope="col">-</th>
+        <th scope="col">-</th>
+        <th scope="col">{{ form.submit(class="btn btn-secondary") }}</th>
+      </form>
+    </tr>
+    {% for plane in planes %}
+    {% if plane.beforetime == 0 %}
+    <tr class="table-success">
+    {% else %}
+    <tr class="table-warning">
+    {% endif %}
+      <th scope="col">{{ plane.registracion }}</th>
+        <th scope="col">{{ plane.takeofftime }}</th>
+        <th scope="col">{{ plane.beforetime }} perc</th>
+        <th scope="col">
+          {% if plane.beforetime == 0 %}
+          <a class="btn btn-warning" href={{ url_for('retakeoff', plane_id=plane.id)}} role="button">Felszállít</a>
+          {% else %}
+          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#retakeoff{{ plane.registracion }}">
+                Felszállás
+              </button>
+          {% endif %}
+          <a class="btn btn-danger" href={{ url_for('delplane', plane_id=plane.id)}} role="button">Törlés</a>
+        </th>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% for plane in planes %}
+  {% if plane.beforetime != 0 %}
+    <div class="modal fade" id="retakeoff{{ plane.registracion }}" tabindex="-1" aria-labelledby="retakeoff{{ plane.registracion }}" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ plane.registracion }} újrafelszállás</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {{ plane.registracion }} gépnek még <b>{{ plane.beforetime }} perc</b> van hátra addig amíg újra felszállhat. Ennek ellenére biztos fel szeretnéd szállítani?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+            <a class="btn btn-primary" href={{ url_for('retakeoff', plane_id=plane.id)}} role="button">Felszállítom</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  {% endfor %}
+</div>
+
+{% endblock content %}

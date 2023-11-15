@@ -1,7 +1,9 @@
-db.sqlite3
+db.**
 **/__pycache__/
 _core/__pycache__/
 logger/__pycache__/
 logger/migrations/
-_venv/
+venv/
 .vscode/
+.idea/**
+
