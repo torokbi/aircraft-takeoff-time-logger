@@ -1,5 +1,5 @@
 import flask.cli
-from flask import redirect, url_for, render_template, request, flash
+from flask import redirect, url_for, render_template, request, flash, jsonify
 from datetime import datetime, time
 
 from logger import app, db
@@ -47,7 +47,7 @@ def home():
         })
     return render_template('logging.html', form=form, planes=planes)
 
-@app.route('/retakoff/<int:plane_id>')
+@app.route('/retakeoff/<int:plane_id>')
 def retakeoff(plane_id):
     current_plane = Planes.query.get_or_404(plane_id)
     current_plane.takeofftime = time(int(datetime.now().hour), int(datetime.now().minute), int(datetime.now().second))
@@ -71,3 +71,28 @@ def howto():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+
+@app.route('/_getplanes')
+def getplanes():
+    planes_db = db.session.execute(db.select(Planes)).scalars()
+    planes = []
+
+    for index in planes_db:
+        now = datetime.now().strftime('%H:%M:%S')
+
+        if datetime.strptime(now, '%H:%M:%S') < datetime.strptime(str(index.takeofftime), "%H:%M:%S"):
+            flash(f"{str(index.registracion).upper()} lajstromú repülőgép nem a mai napon szált fel utoljára!", "info")
+            beforetime = "-0"
+        else:
+            beforetime = datetime.strptime(now, '%H:%M:%S') - datetime.strptime(str(index.takeofftime), "%H:%M:%S")
+            beforetime = 60 - round(beforetime.total_seconds()/60)
+            if beforetime < 0: beforetime = 0
+        
+        planes.append({
+            'id': index.id,
+            'registracion': index.registracion,
+            'takeofftime': index.takeofftime.strftime('%H:%M:%S'),
+            'beforetime': beforetime
+        })
+    return jsonify(planes)
