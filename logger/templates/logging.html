@@ -23,22 +23,24 @@
     </tr>
     {% for plane in planes %}
     {% if plane.beforetime == 0 %}
-    <tr class="table-success">
+    <tr class="table-success" id={{ plane.registracion }}-trow>
     {% else %}
-    <tr class="table-warning">
+    <tr class="table-warning" id={{ plane.registracion }}-trow>
     {% endif %}
       <th scope="col">{{ plane.registracion }}</th>
         <th scope="col">{{ plane.takeofftime }}</th>
-        <th scope="col">{{ plane.beforetime }} perc</th>
+        <th scope="col" id={{ plane.registracion }}-before >{{ plane.beforetime }} perc</th>
         <th scope="col">
-          {% if plane.beforetime == 0 %}
-          <a class="btn btn-warning" href={{ url_for('retakeoff', plane_id=plane.id)}} role="button">Felszállít</a>
-          {% else %}
-          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#retakeoff{{ plane.registracion }}">
-                Felszállás
-              </button>
-          {% endif %}
-          <a class="btn btn-danger" href={{ url_for('delplane', plane_id=plane.id)}} role="button">Törlés</a>
+          <div id={{ plane.registracion }}-takeoffdiv>
+            {% if plane.beforetime == 0 %}
+            <a class="btn btn-warning" href={{ url_for('retakeoff', plane_id=plane.id)}} role="button">Felszállít</a>
+            {% else %}
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#retakeoff{{ plane.registracion }}">
+                  Felszállás
+                </button>
+            {% endif %}
+              <a class="btn btn-danger" href={{ url_for('delplane', plane_id=plane.id)}} role="button">Törlés</a>
+            </div>
         </th>
     </tr>
     {% endfor %}
@@ -66,5 +68,9 @@
   {% endif %}
   {% endfor %}
 </div>
+
+<link rel="stylesheet" href="" />
+<button onclick="auto_update()">JS futtatása</button>
+<script src="{{ url_for('static', filename='updater.js') }}"></script>
 
 {% endblock content %}
