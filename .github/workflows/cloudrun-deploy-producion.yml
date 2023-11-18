@@ -14,11 +14,10 @@ jobs:
              uses: actions/checkout@master
 
            - name: 'Setup GCP Service Account'
+             id: auth
              uses: google-github-actions/setup-gcloud@v1
              with:
-                procject_id: ${{ secrets.GCP_PROCEJT_ID }}
                 credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_SECRET }}
-                export_deault_credentials: true
             
            - name: 'Configure Docker'
              run: make gcloud-docker-init
