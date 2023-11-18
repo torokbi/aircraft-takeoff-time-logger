@@ -16,7 +16,7 @@ jobs:
            - name: 'Setup GCP Service Account'
              uses: google-github-actions/setup-gcloud@v1
              with:
-                procejt_id: ${{ secrets.GCP_PROCET_ID }}
+                procejt_id: ${{ secrets.GCP_PROCEJT_ID }}
                 service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_SECRET }}
                 export_deault_credentials: true
             
@@ -25,18 +25,18 @@ jobs:
            
            - name: 'Build'
              env:
-                GCP_PROJECT_ID: ${{ secrets.GCP_PROCET_ID }}
+                GCP_PROJECT_ID: ${{ secrets.GCP_PROCEJT_ID }}
                 ENVIROMENT: 'production'
              run: make gcloud-docker-build
 
            - name: 'Push'
              env:
-                GCP_PROJECT_ID: ${{ secrets.GCP_PROCET_ID }}
+                GCP_PROJECT_ID: ${{ secrets.GCP_PROCEJT_ID }}
                 ENVIROMENT: 'production'
              run: make gcloud-docker-push
 
            - name: 'Deploy'
              env:
-                GCP_PROJECT_ID: ${{ secrets.GCP_PROCET_ID }}
+                GCP_PROJECT_ID: ${{ secrets.GCP_PROCEJT_ID }}
                 ENVIROMENT: 'production'
              run: make gcloud-docker-deploy
