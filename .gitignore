@@ -6,4 +6,4 @@ logger/migrations/
 venv/
 .vscode/
 .idea/**
-
+.DS_Store
