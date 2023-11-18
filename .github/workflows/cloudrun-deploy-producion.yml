@@ -38,4 +38,4 @@ jobs:
              env:
                 GCP_PROJECT_ID: ${{ secrets.GCP_PROCEJT_ID }}
                 ENVIROMENT: 'production'
-             run: make gcloud-docker-deploy
+             run: make gcloud-run-deploy
