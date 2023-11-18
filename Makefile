@@ -21,7 +21,7 @@ gcloud-docker-push:
 
 gcloud-run-deploy:
 	gcloud run deploy $(APP)-$(ENVIROMENT) \
-	--region europe-central2 \
+	--region europe-west1 \
 	--image gcr.io/$(GCP_PROJECT_ID)/$(APP):$(ENVIROMENT) \
 	--port 80 \
 	--project $(GCP_PROJECT_ID) \
