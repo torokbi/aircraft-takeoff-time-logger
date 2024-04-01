@@ -24,6 +24,7 @@ gcloud-run-deploy:
 	--region europe-west1 \
 	--image gcr.io/$(GCP_PROJECT_ID)/$(APP):$(ENVIROMENT) \
 	--port 80 \
+	--TZ Europe/Budapest \
 	--project $(GCP_PROJECT_ID) \
 	--max-instances 1 \
 	--platform managed \
