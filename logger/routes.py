@@ -1,6 +1,7 @@
 import flask.cli
 from flask import redirect, url_for, render_template, request, flash, jsonify
 from datetime import datetime, time
+from pytz import timezone
 
 from logger import app, db
 from logger.models import Planes
@@ -30,7 +31,7 @@ def home():
                 flash(f"{str(form.reg.data).upper()} lajstromú repülőgépet sikeresen rögzítette.", "success")
             return redirect(url_for('home'))
     for index in planes_db:
-        now = datetime.now().strftime('%H:%M:%S')
+        now = datetime.now().astimezone(timezone('Europe/Budapest')).strftime('%H:%M:%S')
         if datetime.strptime(now, '%H:%M:%S') < datetime.strptime(str(index.takeofftime), "%H:%M:%S"):
             flash(f"{str(index.registracion).upper()} lajstromú repülőgép nem a mai napon szált fel utoljára!", "info")
             beforetime = "-0"
@@ -50,7 +51,7 @@ def home():
 @app.route('/retakeoff/<int:plane_id>')
 def retakeoff(plane_id):
     current_plane = Planes.query.get_or_404(plane_id)
-    current_plane.takeofftime = time(int(datetime.now().hour), int(datetime.now().minute), int(datetime.now().second))
+    current_plane.takeofftime = time(int(datetime.now().astimezone(timezone('Europe/Budapest')).hour), int(datetime.now().astimezone(timezone('Europe/Budapest')).minute), int(datetime.now().astimezone(timezone('Europe/Budapest')).second))
     db.session.commit()
     flash(f"{str(current_plane.registracion).upper()} lajstromú repülőgépet sikeresen felszállította.", "success")
     return redirect(url_for('home'))
