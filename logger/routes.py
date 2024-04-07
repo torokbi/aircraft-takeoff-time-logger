@@ -24,7 +24,7 @@ def home():
                     break
             else:
                 plane = Planes(registracion=str(form.reg.data).upper(),
-                               takeofftime=time(int(datetime.now().hour), int(datetime.now().minute), int(datetime.now().second))
+                               takeofftime=time(int(datetime.now().astimezone(timezone('Europe/Budapest')).hour), int(datetime.now().astimezone(timezone('Europe/Budapest')).minute), int(datetime.now().astimezone(timezone('Europe/Budapest')).second))
                                )
                 db.session.add(plane)
                 db.session.commit()
